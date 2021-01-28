@@ -3,9 +3,9 @@ import { Header } from 'semantic-ui-react';
 function MainHeader({ title, type = "h1" }) {
 
     return (
-        <div>
-            <Header as={type}>{title}</Header>
-        </div>
+
+        <Header as={type}>{title}</Header>
+
     )
 }
 

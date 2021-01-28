@@ -1,10 +1,12 @@
 
-import { Container, Grid, Statistic, Segment, Icon } from 'semantic-ui-react';
+import { Container, Grid, Segment, Icon, Statistic } from 'semantic-ui-react';
 import MainHeader from './components/MainHeader'
 
 import './App.css';
 
 import NewEntryForm from './components/NewEntryForm';
+import DisplayBalance from './components/DisplayBalance';
+import DisplayBalances from './components/DisplayBalances';
 
 function App() {
   return (
@@ -12,33 +14,9 @@ function App() {
 
       <MainHeader title="My Budget" />
 
-      <Statistic size="small">
-        <Statistic.Label>Your Balance:</Statistic.Label>
-        <Statistic.Value>2,550.53:</Statistic.Value>
-      </Statistic>
 
-      <Segment textAlign="center">
-        <Grid columns={2} divided>
-          <Grid.Row>
-            <Grid.Column>
-              <Statistic size="tiny" color="green">
-                <Statistic.Label stlye={{ textAlign: "left" }}>
-                  Incoming
-                </Statistic.Label>
-                <Statistic.Value>1,045.00</Statistic.Value>
-              </Statistic>
-            </Grid.Column>
-            <Grid.Column>
-              <Statistic size="tiny" color="red">
-                <Statistic.Label stlye={{ textAlign: "left" }}>
-                  Incoming
-                </Statistic.Label>
-                <Statistic.Value>623.00</Statistic.Value>
-              </Statistic>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
+      <DisplayBalance title="Your Balance:" value="2,550.53" size="small" color="green" />
+      <DisplayBalances />
 
       <MainHeader title="History" type="h3" />
 
