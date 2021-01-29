@@ -18,8 +18,8 @@ function App() {
     console.log(result)
   }
 
-  const addEntry = (description, value) => {
-    const result = entries.concat({ id: entries.length + 1, description, value })
+  const addEntry = (description, value, isExpense) => {
+    const result = entries.concat({ id: entries.length + 1, description, value, isExpense })
     setEntries(result)
   }
 
