@@ -73,22 +73,25 @@ function App() {
     switch (action.type) {
       case 'ADD_ENTRY':
         //const newEntries = entries.concat({ id: 5, description: "hello", value: 100, isExpense: false })
-        const newEntries = entries.concat({ ...action.payload })
+        const newEntries = state.concat({ ...action.payload })
         return newEntries;
-
-        break;
       default:
         return state
     }
 
   })
+  store.subscribe(() => {
+    console.log('store: ', store.getState());
+  })
 
-  console.log("before", store.getState());
 
   const payload = { id: 5, description: "hello", value: 100, isExpense: false }
+
   store.dispatch({ type: 'ADD_ENTRY', payload: payload });
 
-  console.log("after", store.getState());
+  store.dispatch({ type: 'ADD_ENTRY', payload: payload });
+
+
 
 
   const resetEntry = () => {
