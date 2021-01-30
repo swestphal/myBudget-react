@@ -12,7 +12,7 @@ import DisplayBalance from './components/DisplayBalance';
 import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModelEdit from './components/ModelEdit';
-import { bindActionCreators, createStore } from 'redux'
+import { combineReducers, createStore } from 'redux'
 
 
 function App() {
@@ -67,10 +67,11 @@ function App() {
   }, [isOpen])
 
 
-  //const store = createStore(rootReducer, composeWithDevTools( ));
 
-  const store = createStore((state = initialEntries, action, composeWithDevTools) => {
-    // reducers
+
+
+  const entriesReducer = (state = initialEntries, action) => {
+
     let newEntries;
     switch (action.type) {
       case 'ADD_ENTRY':
@@ -85,7 +86,14 @@ function App() {
         return state
     }
 
+  }
+
+  const combinedReducers = combineReducers({
+    entries: entriesReducer
   })
+
+  const store = createStore(combinedReducers)
+
   store.subscribe(() => {
     console.log('store: ', store.getState());
   })
@@ -93,6 +101,7 @@ function App() {
 
   const payload_add = { id: 5, description: "hello", value: 100, isExpense: false }
   const payload_remove = { id: 5 }
+
   const addEntryRedux = (payload) => {
     return { type: 'ADD_ENTRY', payload }
   }
