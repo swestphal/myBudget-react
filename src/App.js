@@ -1,14 +1,18 @@
 
-import { Container } from 'semantic-ui-react';
+
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import './App.css';
+
 import { useState, useEffect } from 'react'
+import { Container } from 'semantic-ui-react';
 import MainHeader from './components/MainHeader'
 import NewEntryForm from './components/NewEntryForm';
 import DisplayBalance from './components/DisplayBalance';
 import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModelEdit from './components/ModelEdit';
-
+import { bindActionCreators, createStore } from 'redux'
 
 
 function App() {
@@ -61,6 +65,31 @@ function App() {
       console.log("clean up")
     }
   }, [isOpen])
+
+
+  //const store = createStore(rootReducer, composeWithDevTools( ));
+
+  const store = createStore((state = initialEntries, action, composeWithDevTools) => {
+    switch (action.type) {
+      case 'ADD_ENTRY':
+        //const newEntries = entries.concat({ id: 5, description: "hello", value: 100, isExpense: false })
+        const newEntries = entries.concat({ ...action.payload })
+        return newEntries;
+
+        break;
+      default:
+        return state
+    }
+
+  })
+
+  console.log("before", store.getState());
+
+  const payload = { id: 5, description: "hello", value: 100, isExpense: false }
+  store.dispatch({ type: 'ADD_ENTRY', payload: payload });
+
+  console.log("after", store.getState());
+
 
   const resetEntry = () => {
     setDescription('')

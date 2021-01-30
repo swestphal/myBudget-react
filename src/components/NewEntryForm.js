@@ -7,7 +7,6 @@ function NewEntryForm({ addEntry, value, description, isExpense, setIsExpense, s
 
     return (
         <Form unstackable>
-
             <EntryForm addEntry={addEntry} description={description} value={value} isExpense={isExpense} setDescription={setDescription} setValue={setValue} setIsExpense={setIsExpense} />
             <ButtonSaveOrCancel addEntry={addEntry} />
         </Form>
