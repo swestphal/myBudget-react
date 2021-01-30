@@ -4,7 +4,7 @@ function MainHeader({ title, type = "h1" }) {
 
     return (
 
-        <Header as={type}>{title}</Header>
+        <Header as={type} >{title}</Header>
 
     )
 }

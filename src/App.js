@@ -15,14 +15,39 @@ function App() {
   const [entries, setEntries] = useState(initialEntries)
 
   const [description, setDescription] = useState('');
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(0)
   const [isExpense, setIsExpense] = useState(false)
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [entryId, setEntryId] = useState()
 
-  //clear modalentries
+  const [incomeTotal, setIncomeTotal] = useState('')
+  const [expenseTotal, setExpenseTotal] = useState('')
+  const [total, setTotal] = useState('')
+
+  useEffect(() => {
+    let totalIncome = 0;
+    let totalExpense = 0;
+    entries.map((entry) => {
+      if (entry.isExpense) {
+        totalExpense += parseFloat(entry.value)
+      } else {
+        totalIncome += parseFloat(entry.value)
+      }
+    })
+
+
+    setTotal(parseFloat(totalIncome) - parseFloat(totalExpense))
+    setIncomeTotal(parseFloat(totalIncome));
+    setExpenseTotal(parseFloat(totalExpense));
+
+    return () => {
+
+    }
+  }, [entries])
+
+
   useEffect(() => {
     if (!isOpen && entryId) {
       const index = entries.findIndex(entry => entry.id === entryId)
@@ -33,7 +58,7 @@ function App() {
       resetEntry()
     }
     return () => {
-
+      console.log("clean up")
     }
   }, [isOpen])
 
@@ -44,7 +69,7 @@ function App() {
   }
   const deleteEntry = (id) => {
     const result = entries.filter(entry => entry.id !== id)
-    console.log(result)
+    setEntries(result)
   }
 
   const editEntry = (id) => {
@@ -72,8 +97,8 @@ function App() {
 
       <MainHeader title="My Budget" />
 
-      <DisplayBalance title="Your Balance:" value="2,550.53" size="small" color="green" />
-      <DisplayBalances />
+      <DisplayBalance title="Your Balance:" value={total} size="small" color="green" />
+      <DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
       <MainHeader title="History" type="h3" />
       <EntryLines entries={entries} deleteEntry={deleteEntry} isOpen={isOpen} setIsOpen={setIsOpen} editEntry={editEntry} />
@@ -92,25 +117,25 @@ const initialEntries = [
   {
     id: 1,
     description: "Work income",
-    value: "$1000,00",
+    value: "1000",
     isExpense: false
   },
   {
     id: 2,
     description: "Water bill",
-    value: "$20,00",
+    value: "20",
     isExpense: true
   },
   {
     id: 3,
     description: "Rent",
-    value: "$300,00",
+    value: "300",
     isExpense: true
   },
   {
     id: 4,
     description: "Power Bill",
-    value: "$50,00",
+    value: "50",
     isExpense: true
   }
 ]
