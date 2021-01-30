@@ -11,6 +11,7 @@ function ModelEdit({ isOpen, setIsOpen, value, description, isExpense, setIsExpe
             </Modal.Content>
             <Modal.Actions>
                 <Button onClick={() => setIsOpen(false)}>Close</Button>
+                <Button primary onClick={() => setIsOpen(false)}>Ok</Button>
             </Modal.Actions>
         </Modal>
     )

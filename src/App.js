@@ -1,7 +1,7 @@
 
 import { Container } from 'semantic-ui-react';
 import './App.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MainHeader from './components/MainHeader'
 import NewEntryForm from './components/NewEntryForm';
 import DisplayBalance from './components/DisplayBalance';
@@ -20,6 +20,21 @@ function App() {
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const [entryId, setEntryId] = useState()
+
+  //clear modalentries
+  useEffect(() => {
+    if (!isOpen && entryId) {
+      const index = entries.findIndex(entry => entry.id === entryId)
+      const newEntries = [...entries]
+      newEntries[index] = { ...newEntries[index], description, value, isExpense }
+      setEntries(newEntries)
+    }
+    return () => {
+
+    }
+  }, [isOpen])
+
   const deleteEntry = (id) => {
     const result = entries.filter(entry => entry.id !== id)
     console.log(result)
@@ -34,6 +49,7 @@ function App() {
       setValue(entry.value);
       setIsExpense(entry.isExpense)
       setIsOpen(true)
+      setEntryId(id)
     }
   }
 
