@@ -70,10 +70,16 @@ function App() {
   //const store = createStore(rootReducer, composeWithDevTools( ));
 
   const store = createStore((state = initialEntries, action, composeWithDevTools) => {
+    // reducers
+    let newEntries;
     switch (action.type) {
       case 'ADD_ENTRY':
         //const newEntries = entries.concat({ id: 5, description: "hello", value: 100, isExpense: false })
-        const newEntries = state.concat({ ...action.payload })
+        newEntries = state.concat({ ...action.payload })
+        return newEntries;
+      case 'REMOVE_ENTRY':
+        newEntries = state.filter(entry => entry.id !== action.payload.id)
+
         return newEntries;
       default:
         return state
@@ -85,11 +91,19 @@ function App() {
   })
 
 
-  const payload = { id: 5, description: "hello", value: 100, isExpense: false }
+  const payload_add = { id: 5, description: "hello", value: 100, isExpense: false }
+  const payload_remove = { id: 5 }
+  const addEntryRedux = (payload) => {
+    return { type: 'ADD_ENTRY', payload }
+  }
 
-  store.dispatch({ type: 'ADD_ENTRY', payload: payload });
+  const removeEntryRedux = (payload) => {
+    return { type: 'REMOVE_ENTRY', payload }
+  }
+  store.dispatch(addEntryRedux(payload_add));
 
-  store.dispatch({ type: 'ADD_ENTRY', payload: payload });
+
+  store.dispatch(removeEntryRedux(payload_remove));
 
 
 
