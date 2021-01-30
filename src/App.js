@@ -12,11 +12,12 @@ import DisplayBalance from './components/DisplayBalance';
 import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import ModelEdit from './components/ModelEdit';
-import { combineReducers, createStore } from 'redux'
+import { useSelector } from 'react-redux'
 
 
 function App() {
-  const [entries, setEntries] = useState(initialEntries)
+
+
 
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(0)
@@ -30,6 +31,8 @@ function App() {
   const [expenseTotal, setExpenseTotal] = useState('')
   const [total, setTotal] = useState('')
 
+  const entries = useSelector((state) => state.entries)
+  console.log(entries)
   useEffect(() => {
     let totalIncome = 0;
     let totalExpense = 0;
@@ -57,7 +60,7 @@ function App() {
       const index = entries.findIndex(entry => entry.id === entryId)
       const newEntries = [...entries]
       newEntries[index] = { ...newEntries[index], description, value, isExpense }
-      setEntries(newEntries)
+      //setEntries(newEntries)
       setDescription('')
       resetEntry()
     }
@@ -69,63 +72,12 @@ function App() {
 
 
 
-
-  const entriesReducer = (state = initialEntries, action) => {
-
-    let newEntries;
-    switch (action.type) {
-      case 'ADD_ENTRY':
-        //const newEntries = entries.concat({ id: 5, description: "hello", value: 100, isExpense: false })
-        newEntries = state.concat({ ...action.payload })
-        return newEntries;
-      case 'REMOVE_ENTRY':
-        newEntries = state.filter(entry => entry.id !== action.payload.id)
-
-        return newEntries;
-      default:
-        return state
-    }
-
-  }
-
-  const combinedReducers = combineReducers({
-    entries: entriesReducer
-  })
-
-  const store = createStore(combinedReducers)
-
-  store.subscribe(() => {
-    console.log('store: ', store.getState());
-  })
-
-
-  const payload_add = { id: 5, description: "hello", value: 100, isExpense: false }
-  const payload_remove = { id: 5 }
-
-  const addEntryRedux = (payload) => {
-    return { type: 'ADD_ENTRY', payload }
-  }
-
-  const removeEntryRedux = (payload) => {
-    return { type: 'REMOVE_ENTRY', payload }
-  }
-  store.dispatch(addEntryRedux(payload_add));
-
-
-  store.dispatch(removeEntryRedux(payload_remove));
-
-
-
-
   const resetEntry = () => {
     setDescription('')
     setValue('')
     setIsExpense('')
   }
-  const deleteEntry = (id) => {
-    const result = entries.filter(entry => entry.id !== id)
-    setEntries(result)
-  }
+
 
   const editEntry = (id) => {
 
@@ -143,7 +95,7 @@ function App() {
 
   const addEntry = () => {
     const result = entries.concat({ id: entries.length + 1, description, value, isExpense })
-    setEntries(result)
+    //setEntries(result)
   }
 
 
@@ -156,7 +108,7 @@ function App() {
       <DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} deleteEntry={deleteEntry} isOpen={isOpen} setIsOpen={setIsOpen} editEntry={editEntry} />
+      <EntryLines entries={entries} isOpen={isOpen} setIsOpen={setIsOpen} editEntry={editEntry} />
 
       <MainHeader title="Add new transaction" type="h3" />
       <NewEntryForm addEntry={addEntry} addEntry={addEntry} description={description} value={value} isExpense={isExpense} setDescription={setDescription} setValue={setValue} setIsExpense={setIsExpense} />
@@ -167,30 +119,3 @@ function App() {
 
 export default App;
 
-
-const initialEntries = [
-  {
-    id: 1,
-    description: "Work income",
-    value: "1000",
-    isExpense: false
-  },
-  {
-    id: 2,
-    description: "Water bill",
-    value: "20",
-    isExpense: true
-  },
-  {
-    id: 3,
-    description: "Rent",
-    value: "300",
-    isExpense: true
-  },
-  {
-    id: 4,
-    description: "Power Bill",
-    value: "50",
-    isExpense: true
-  }
-]
