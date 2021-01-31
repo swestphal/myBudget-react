@@ -1,7 +1,4 @@
 
-
-import { composeWithDevTools } from 'redux-devtools-extension';
-
 import './App.css';
 
 import { useState, useEffect } from 'react'
