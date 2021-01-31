@@ -20,7 +20,7 @@ function App() {
   const [value, setValue] = useState(0)
   const [isExpense, setIsExpense] = useState(false)
 
-  const [isOpen, setIsOpen] = useState(false)
+
 
   const [entryId, setEntryId] = useState()
 
@@ -28,7 +28,9 @@ function App() {
   const [expenseTotal, setExpenseTotal] = useState('')
   const [total, setTotal] = useState('')
 
+  const isOpen = useSelector((state) => state.modals.isOpen)
   const entries = useSelector((state) => state.entries)
+
 
   useEffect(() => {
     let totalIncome = 0;
@@ -84,7 +86,7 @@ function App() {
       setDescription(entry.description);
       setValue(entry.value);
       setIsExpense(entry.isExpense)
-      setIsOpen(true)
+
       setEntryId(id)
     }
   }
@@ -105,11 +107,11 @@ function App() {
       <DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} isOpen={isOpen} setIsOpen={setIsOpen} editEntry={editEntry} />
+      <EntryLines entries={entries} isOpen={isOpen} editEntry={editEntry} />
 
       <MainHeader title="Add new transaction" type="h3" />
-      <NewEntryForm addEntry={addEntry} addEntry={addEntry} description={description} value={value} isExpense={isExpense} setDescription={setDescription} setValue={setValue} setIsExpense={setIsExpense} />
-      <ModelEdit isOpen={isOpen} setIsOpen={setIsOpen} addEntry={addEntry} addEntry={addEntry} description={description} value={value} isExpense={isExpense} setDescription={setDescription} setValue={setValue} setIsExpense={setIsExpense} />
+      <NewEntryForm />
+      <ModelEdit isOpen={isOpen} />
     </Container >
   );
 }
