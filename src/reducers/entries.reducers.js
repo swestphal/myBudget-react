@@ -1,6 +1,6 @@
 
 const reducer = (state = initialEntries, action) => {
-
+    console.log(action.payload)
     let newEntries;
     switch (action.type) {
         case 'ADD_ENTRY':
@@ -12,8 +12,9 @@ const reducer = (state = initialEntries, action) => {
             return newEntries;
         case 'UPDATE_ENTRY':
             newEntries = [...state];
-            const index = newEntries.findIndex(entry => entry.id !== action.payload)
+            const index = newEntries.findIndex(entry => entry.id === action.payload.id)
             newEntries[index] = { ...action.payload.entry }
+            console.log(newEntries)
             return newEntries
         default:
             return state

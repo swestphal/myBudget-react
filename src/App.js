@@ -14,23 +14,13 @@ import { useSelector } from 'react-redux'
 
 function App() {
 
-
-
-  const [description, setDescription] = useState('');
-  const [value, setValue] = useState(0)
-  const [isExpense, setIsExpense] = useState(false)
-
-
-
-  const [entryId, setEntryId] = useState()
-
   const [incomeTotal, setIncomeTotal] = useState('')
   const [expenseTotal, setExpenseTotal] = useState('')
   const [total, setTotal] = useState('')
 
-  const isOpen = useSelector((state) => state.modals.isOpen)
+  const { isOpen, id } = useSelector((state) => state.modals)
   const entries = useSelector((state) => state.entries)
-
+  const [entry, setEntry] = useState();
 
   useEffect(() => {
     let totalIncome = 0;
@@ -55,47 +45,12 @@ function App() {
 
 
   useEffect(() => {
-    if (!isOpen && entryId) {
-      const index = entries.findIndex(entry => entry.id === entryId)
-      const newEntries = [...entries]
-      newEntries[index] = { ...newEntries[index], description, value, isExpense }
-      //setEntries(newEntries)
-      setDescription('')
-      resetEntry()
-    }
-    return () => {
-      console.log("clean up")
-    }
-  }, [isOpen])
+    const index = entries.findIndex(entry => entry.id === id)
+    setEntry(entries[index])
+    console.log(entry)
+  }, [isOpen, id])
 
 
-
-
-  const resetEntry = () => {
-    setDescription('')
-    setValue('')
-    setIsExpense('')
-  }
-
-
-  const editEntry = (id) => {
-
-    if (id) {
-      const index = entries.findIndex(entry => entry.id === id)
-      const entry = entries[index]
-      setDescription(entry.description);
-      setValue(entry.value);
-      setIsExpense(entry.isExpense)
-
-      setEntryId(id)
-    }
-  }
-
-
-  const addEntry = () => {
-    const result = entries.concat({ id: entries.length + 1, description, value, isExpense })
-    //setEntries(result)
-  }
 
 
   return (
@@ -107,11 +62,11 @@ function App() {
       <DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} isOpen={isOpen} editEntry={editEntry} />
+      <EntryLines entries={entries} />
 
       <MainHeader title="Add new transaction" type="h3" />
       <NewEntryForm />
-      <ModelEdit isOpen={isOpen} />
+      <ModelEdit isOpen={isOpen} {...entry} />
     </Container >
   );
 }
