@@ -32,7 +32,7 @@ function App() {
   const [total, setTotal] = useState('')
 
   const entries = useSelector((state) => state.entries)
-  console.log(entries)
+
   useEffect(() => {
     let totalIncome = 0;
     let totalExpense = 0;
